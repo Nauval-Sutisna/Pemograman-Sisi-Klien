@@ -122,8 +122,6 @@ const mahasiswaList = {
   ],
 };
 
-console.log(mahasiswaList);
-
 
 // Menampilkan Semua Data Mahasiswa [show()]
 const show = () => {
