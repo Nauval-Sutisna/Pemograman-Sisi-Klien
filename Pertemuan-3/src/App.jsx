@@ -1,11 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import Home from './package/Home.jsx'
-import './App.css'
-import Login from './package/Login.jsx'
+// src/App.jsx
+import React from "react";
+import Login from "./package/Auth/Login.jsx"; // aman pakai ekstensi .jsx biar pasti terbaca
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Login />
-  </StrictMode>,
-)
+function App() {
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-gray-100">
+      {/* Komponen Login ditampilkan di tengah halaman */}
+      <Login />
+    </main>
+  );
+}
+
+export default App;
