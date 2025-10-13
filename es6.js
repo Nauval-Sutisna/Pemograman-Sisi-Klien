@@ -21,7 +21,7 @@ const mahasiswa = {
             nilai: 85
         }
     ],
-    organisasi: "IMPHEN"
+    organisasi: "IMPHNEN"
 };
 
 // 1. ctrl + shift + p 
