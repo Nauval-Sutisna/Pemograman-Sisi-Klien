@@ -4,14 +4,37 @@ import Heading from "@/Pages/Layouts/Components/Heading";
 import Button from "@/Pages/Layouts/Components/Button";
 
 import { mahasiswaList } from "@/Data/Dummy";
+import { useNavigate } from "react-router-dom";
 
 const Mahasiswa = () => {
+  const navigate = useNavigate();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // addMahasiswa({ nim: "20211003", nama: "Dewi Lestari" });
+
+  // const addMahasiswa = (newData) => {
+  //   setMahasiswa([...mahasiswa, newData]);
+  // };
+
+  // updateMahasiswa("20211001", { nama: "Budi S." });
+
+  // const updateMahasiswa = (nim, newData) => {
+  //   const updated = mahasiswa.map((mhs) => 
+  //     mhs.nim === nim ? {...mhs, ...newData} : mhs
+  //   );
+  //   setMahasiswa(updated);
+  // };
+
   const handleEdit = (nama) => alert(`Edit data ${nama}`);
-  const handleDelete = (nama) => {
-    if (confirm(`Yakin ingin hapus ${nama}?`)) alert("Data berhasil dihapus!");
+    const handleDelete = (nama) => {
+      if (confirm(`Yakin ingin hapus ${nama}?`)) alert("Data berhasil dihapus!");
   };
+
+  // const deleteMahasiswa = (nim) => {
+  //   const filtered = mahasiswa.filtered((mhs) => mhs.nim !== nim);
+  //   setMahasiswa(filtered);
+  // }
 
   return (
     <>
@@ -40,12 +63,12 @@ const Mahasiswa = () => {
                 <td className="py-2 px-4">{mhs.nim}</td>
                 <td className="py-2 px-4">{mhs.nama}</td>
                 <td className="py-2 px-4 text-center space-x-2">
-                  <a
-                    href={`/admin/mahasiswa/${mhs.nim}`}
+                  <Button
                     className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded"
+                    onClick={() => navigate(`/admin/mahasiswa/${mhs.nim}`)}
                   >
                     Detail
-                  </a>
+                  </Button>
                   <Button
                     size="sm"
                     variant="warning"
