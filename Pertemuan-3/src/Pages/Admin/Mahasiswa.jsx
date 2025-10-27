@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"; // ← tambahkan useEffect di sini
+import React, { useState, useEffect } from "react";
 import Card from "@/Pages/Layouts/Components/Card";
 import Heading from "@/Pages/Layouts/Components/Heading";
 import Button from "@/Pages/Layouts/Components/Button";
 import { mahasiswaList } from "@/Data/Dummy";
 import { useNavigate } from "react-router-dom";
 import ModalMahasiswa from "./ModalMahasiswa";
+import TableMahasiswa from "./TableMahasiswa";
 
 const Mahasiswa = () => {
   const navigate = useNavigate();
@@ -112,74 +113,25 @@ const Mahasiswa = () => {
           <Heading as="h2" className="mb-0 text-left">
             Daftar Mahasiswa
           </Heading>
-          {/* <Button onClick={handleAdd}>+ Tambah Mahasiswa</Button> */}
           <Button onClick={openAddModal}>+ Tambah Mahasiswa</Button>
         </div>
 
-        <table className="w-full text-sm text-gray-700">
-          <thead className="bg-blue-600 text-white">
-            <tr>
-              <th className="py-2 px-4 text-left">NIM</th>
-              <th className="py-2 px-4 text-left">Nama</th>
-              <th className="py-2 px-4 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mahasiswa.length > 0 ? (
-              mahasiswa.map((mhs, index) => (
-                <tr
-                  key={mhs.nim}
-                  className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}
-                >
-                  <td className="py-2 px-4">{mhs.nim}</td>
-                  <td className="py-2 px-4">{mhs.nama}</td>
-                  <td className="py-2 px-4 text-center space-x-2">
-                    <Button
-                      className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded"
-                      onClick={() => navigate(`/admin/mahasiswa/${mhs.nim}`)}
-                    >
-                      Detail
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="warning"
-                      onClick={() => handleEdit(mhs)}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="danger"
-                      onClick={() => deleteMahasiswa(mhs.nim)}
-                    >
-                      Hapus
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="3"
-                  className="py-3 text-center text-gray-500 italic"
-                >
-                  Tidak ada data mahasiswa.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <TableMahasiswa
+          data={mahasiswa}
+          onEdit={handleEdit}
+          onDelete={deleteMahasiswa}
+          onDetail={(nim) => navigate(`/admin/mahasiswa/${nim}`)}
+        />
       </Card>
 
-      {isModalOpen && (
-        <ModalMahasiswa
-          form={form}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          setIsModalOpen={setIsModalOpen}
-          isEdit={isEdit}
-        />
-      )}
+      <ModalMahasiswa
+        isOpen={isModalOpen}
+        isEdit={isEdit}
+        form={form}
+        onChange={handleChange}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+      />
     </>
   );
 };
