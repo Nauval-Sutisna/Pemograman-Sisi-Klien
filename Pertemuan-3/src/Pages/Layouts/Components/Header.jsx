@@ -1,4 +1,6 @@
 import Button from "@/Pages/Layouts/Components/Button";
+import { confirmLogout } from "@/Pages/Layouts/Utils/Helpers/SwalHelpers";
+import { toastSuccess } from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
 
 const Header = () => {
   const toggleProfileMenu = () => {
@@ -23,10 +25,17 @@ const Header = () => {
               Profile
             </a>
             <button
-              onClick={() => {
-                localStorage.removeItem("user");
-                location.href = "/";
-              }}
+              // onClick={() => {
+              //   localStorage.removeItem("user");
+              //   location.href = "/";
+              // }}
+              onClick={() =>
+                confirmLogout(() => {
+                  localStorage.removeItem("user");
+                  toastSuccess("Berhasil logout!");
+                  location.href = "/";
+                })
+              }
               className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
             >
               Logout

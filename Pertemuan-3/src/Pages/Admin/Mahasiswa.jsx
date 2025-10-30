@@ -6,6 +6,8 @@ import { mahasiswaList } from "@/Data/Dummy";
 import { useNavigate } from "react-router-dom";
 import ModalMahasiswa from "./ModalMahasiswa";
 import TableMahasiswa from "./TableMahasiswa";
+import { toastSuccess, toastError } from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
+import { confirmDelete, confirmUpdate } from "@/Pages/Layouts/Utils/Helpers/SwalHelpers";
 
 const Mahasiswa = () => {
   const navigate = useNavigate();
@@ -49,11 +51,11 @@ const Mahasiswa = () => {
 
   // Hapus data mahasiswa
   const deleteMahasiswa = (nim) => {
-    if (confirm("Yakin ingin hapus data ini?")) {
+    confirmDelete(() => {
       const filtered = mahasiswa.filter((mhs) => mhs.nim !== nim);
       setMahasiswa(filtered);
-      alert("Data berhasil dihapus!");
-    }
+      toastSuccess("Data berhasil dihapus");
+    });
   };
 
   // Buka modal untuk tambah
@@ -81,8 +83,13 @@ const Mahasiswa = () => {
     }
 
     if (isEdit) {
-      updateMahasiswa(originalNim, form);
-      alert("Data berhasil diperbarui!");
+      // 🔹 Gunakan konfirmasi sebelum update
+      confirmUpdate(() => {
+        updateMahasiswa(originalNim, form);
+        toastSuccess("Data berhasil diperbarui");
+        closeModal();
+      });
+      
     } else {
       const exists = mahasiswa.some((mhs) => mhs.nim === form.nim);
       if (exists) {
@@ -90,7 +97,8 @@ const Mahasiswa = () => {
         return;
       }
       addMahasiswa(form);
-      alert("Data berhasil ditambahkan!");
+      // alert("Data berhasil ditambahkan!");
+      toastSuccess("Data berhasil ditambahkan");
     }
 
     setForm({ nim: "", nama: "" });

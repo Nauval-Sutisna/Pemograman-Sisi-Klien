@@ -1,5 +1,6 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import "@/App.css";
@@ -73,7 +74,13 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />
+    <Toaster position="top-center" />
   </StrictMode>
 );
+
+{/* <React.StrictMode>
+  <Toaster position="top-right" />
+  <RouterProvider router={router} />
+</React.StrictMode> */}
 
 export default App;
