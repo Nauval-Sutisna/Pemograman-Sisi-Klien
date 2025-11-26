@@ -16,11 +16,11 @@ const TableMahasiswa = ({ data = [], onEdit, onDelete, onDetail }) => {
             <td className="py-2 px-4">{mhs.nim}</td>
             <td className="py-2 px-4">{mhs.nama}</td>
             <td className="py-2 px-4 text-center space-x-2">
-              <Button size="sm" onClick={() => onDetail(mhs.nim)}>Detail</Button>
+              <Button size="sm" onClick={() => onDetail(mhs.id)}>Detail</Button>
               <Button size="sm" variant="warning" onClick={() => onEdit(mhs)}>
                 Edit
               </Button>
-              <Button size="sm" variant="danger" onClick={() => onDelete(mhs.nim)}>
+              <Button size="sm" variant="danger" onClick={() => onDelete(mhs.id)}>
                 Hapus
               </Button>
             </td>

@@ -1,29 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Card from "@/Pages/Layouts/Components/Card";
 import Heading from "@/Pages/Layouts/Components/Heading";
 
-import { mahasiswaList } from "@/Data/Dummy";
+import { getMahasiswa } from "@/Pages/Layouts/Utils/Apis/MahasiswaApi";
+import { toastError } from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
 
 const MahasiswaDetail = () => {
+  const { id } = useParams();
 
-  const path = window.location.pathname;
-  const nim = path.split("/").pop();
+  const [mahasiswa, setMahasiswa] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const mahasiswa = mahasiswaList.find((m) => m.nim === nim);
+  useEffect(() => {
+    fetchMahasiswa();
+  }, [id]);
 
-  if (!mahasiswa) {
-    return <p className="text-red-600">Data mahasiswa tidak ditemukan.</p>;
-  }
+  const fetchMahasiswa = async () => {
+    try {
+      const res = await getMahasiswa(id);
+      setMahasiswa(res.data);
+    } catch (err) {
+      toastError("Gagal mengambil data mahasiswa");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <p className="text-center">Memuat data...</p>;
+
+  if (!mahasiswa)
+    return <p className="text-center text-red-600">Data tidak ditemukan</p>;
 
   return (
     <Card>
-      <Heading as="h2" className="mb-4 text-left">Detail Mahasiswa</Heading>
+      <Heading as="h2" className="mb-4 text-left">
+        Detail Mahasiswa
+      </Heading>
+
       <table className="table-auto text-sm w-full">
         <tbody>
           <tr>
             <td className="py-2 px-4 font-medium">NIM</td>
             <td className="py-2 px-4">{mahasiswa.nim}</td>
           </tr>
+
           <tr>
             <td className="py-2 px-4 font-medium">Nama</td>
             <td className="py-2 px-4">{mahasiswa.nama}</td>
