@@ -3,6 +3,7 @@ import Card from "@/Pages/Layouts/Components/Card";
 import Heading from "@/Pages/Layouts/Components/Heading";
 import Button from "@/Pages/Layouts/Components/Button";
 import { useNavigate } from "react-router-dom";
+import { useAuthStateContext } from "@/Pages/Layouts/Utils/Context/AuthContext";
 
 import TableMahasiswa from "./TableMahasiswa";
 import ModalMahasiswa from "./ModalMahasiswa";
@@ -19,6 +20,7 @@ import {
 
 const Mahasiswa = () => {
   const navigate = useNavigate();
+  const { user } = useAuthStateContext();
 
   // Data Mahasiswa
   const [mahasiswa, setMahasiswa] = useState([]);
@@ -117,15 +119,19 @@ const Mahasiswa = () => {
           <Heading as="h2" className="mb-0 text-left">
             Daftar Mahasiswa
           </Heading>
-          <Button onClick={handleAdd}>+ Tambah Mahasiswa</Button>
+          {user.permission?.includes("mahasiswa.create") && (
+            <Button onClick={handleAdd}>+ Tambah Mahasiswa</Button>
+          )}
         </div>
 
-        <TableMahasiswa
-          data={mahasiswa}
-          onEdit={openEditModal}
-          onDelete={handleDelete}
-          onDetail={(id) => navigate(`/admin/mahasiswa/${id}`)}
-        />
+        {user.permission?.includes("mahasiswa.read") && (
+          <TableMahasiswa
+            data={mahasiswa}
+            onEdit={openEditModal}
+            onDelete={handleDelete}
+            onDetail={(id) => navigate(`/admin/mahasiswa/${id}`)}
+          />
+        )}
       </Card>
 
       <ModalMahasiswa

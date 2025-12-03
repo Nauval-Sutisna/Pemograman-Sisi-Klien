@@ -1,6 +1,7 @@
 import Button from "@/Pages/Layouts/Components/Button";
 import { confirmLogout } from "@/Pages/Layouts/Utils/Helpers/SwalHelpers";
 import { toastSuccess } from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
+import { useAuthStateContext } from "@/Pages/Layouts/Utils/Context/AuthContext";
 
 const Header = () => {
   const toggleProfileMenu = () => {
@@ -8,10 +9,14 @@ const Header = () => {
     if (menu) menu.classList.toggle("hidden");
   };
 
+  const { user, setUser } = useAuthStateContext();
+
   return (
     <header className="bg-white shadow-md">
       <div className="flex justify-between items-center px-6 py-4">
-        <h1 className="text-2xl font-semibold text-gray-800">Mahasiswa</h1>
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Login sebagai: <strong>{user?.role || user?.name}</strong>
+        </h1>
         <div className="relative">
           <Button
             onClick={toggleProfileMenu}

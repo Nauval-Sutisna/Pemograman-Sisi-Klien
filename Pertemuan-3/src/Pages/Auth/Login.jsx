@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStateContext } from "@/Pages/Layouts/Utils/Context/AuthContext";
 
 import Input from "@/Pages/Layouts/Components/Input";
 import Label from "@/Pages/Layouts/Components/Label";
@@ -15,6 +16,10 @@ import { login } from "@/Pages/Layouts/Utils/Apis/AuthApi";
 const Login = () => {
   const navigate = useNavigate();
 
+  const { user, setUser } = useAuthStateContext();
+
+  if (user) return navigate("/admin");
+
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -29,13 +34,15 @@ const Login = () => {
     const { email, password } = form;
 
     try {
-      const user = await login(email, password);
+      const user = await login(email, password); // login = axios.get('/users?email=')
 
-      // Simpan user ke localStorage
-      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user); // ini akan simpan ke context + localStorage
 
       toastSuccess("Login berhasil!");
-      navigate("/admin/dashboard");
+
+      setTimeout(() => {
+        navigate("/admin/dashboard");
+      }, 10); // beri waktu React update context
     } catch (err) {
       toastError(err.message || "Email atau password salah!");
     }
