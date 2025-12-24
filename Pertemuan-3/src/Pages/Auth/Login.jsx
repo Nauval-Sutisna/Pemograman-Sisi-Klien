@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStateContext } from "@/Pages/Layouts/Utils/Context/AuthContext";
 
 import Input from "@/Pages/Layouts/Components/Input";
 import Label from "@/Pages/Layouts/Components/Label";
 import Button from "@/Pages/Layouts/Components/Button";
-import Link from "@/Pages/Layouts/Components/Link";
 import Card from "@/Pages/Layouts/Components/Card";
 import Heading from "@/Pages/Layouts/Components/Heading";
 import Form from "@/Pages/Layouts/Components/Form";
+import Link from "@/Pages/Layouts/Components/Link";
 
-import { toastSuccess, toastError } from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
+import {
+  toastSuccess,
+  toastError,
+} from "@/Pages/Layouts/Utils/Helpers/ToastHelpers";
 import { login } from "@/Pages/Layouts/Utils/Apis/AuthApi";
 
 const Login = () => {
   const navigate = useNavigate();
-
   const { user, setUser } = useAuthStateContext();
-
-  if (user) return navigate("/admin");
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/admin/dashboard");
+    }
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -31,18 +37,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = form;
 
     try {
-      const user = await login(email, password); // login = axios.get('/users?email=')
-
-      setUser(user); // ini akan simpan ke context + localStorage
-
+      const result = await login(form.email, form.password);
+      setUser(result);
       toastSuccess("Login berhasil!");
-
-      setTimeout(() => {
-        navigate("/admin/dashboard");
-      }, 10); // beri waktu React update context
     } catch (err) {
       toastError(err.message || "Email atau password salah!");
     }
@@ -96,6 +95,7 @@ const Login = () => {
       <p className="text-sm text-center text-gray-600 mt-4">
         Belum punya akun? <Link href="#">Daftar</Link>
       </p>
+
     </Card>
   );
 };

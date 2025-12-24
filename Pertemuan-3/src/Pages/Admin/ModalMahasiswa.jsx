@@ -29,8 +29,8 @@ const ModalMahasiswa = ({
           </button>
         </div>
 
-        {/* Form Input */}
         <Form onSubmit={onSubmit} className="p-4 space-y-4">
+
           <div>
             <Label htmlFor="nim">NIM</Label>
             <Input
@@ -46,20 +46,40 @@ const ModalMahasiswa = ({
           <div>
             <Label htmlFor="nama">Nama</Label>
             <Input
+              id="name"
               type="text"
-              name="nama"
-              value={form.nama}
+              name="name"
+              value={form.name}
               onChange={onChange}
               placeholder="Masukkan Nama"
               required
             />
           </div>
 
+          <div>
+            <Label htmlFor="max_sks">Max SKS</Label>
+            <Input
+              type="number"
+              name="max_sks"
+              value={form.max_sks}
+              onChange={onChange}
+              placeholder="Masukkan Max SKS"
+              required
+              min={1}
+            />
+          </div>
+
           <div className="flex justify-end space-x-2 mt-4">
-            <Button type="button" onClick={onClose} variant="secondary">
+            <Button
+              type="button"
+              onClick={onClose}
+              variant="secondary"
+            >
               Batal
             </Button>
-            <Button type="submit">{isEdit ? "Perbarui" : "Simpan"}</Button>
+            <Button type="submit">
+              {isEdit ? "Perbarui" : "Simpan"}
+            </Button>
           </div>
         </Form>
       </div>

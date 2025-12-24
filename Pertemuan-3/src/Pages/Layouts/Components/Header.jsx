@@ -9,7 +9,7 @@ const Header = () => {
     if (menu) menu.classList.toggle("hidden");
   };
 
-  const { user, setUser } = useAuthStateContext();
+  const { user } = useAuthStateContext();
 
   return (
     <header className="bg-white shadow-md">
@@ -30,10 +30,6 @@ const Header = () => {
               Profile
             </a>
             <button
-              // onClick={() => {
-              //   localStorage.removeItem("user");
-              //   location.href = "/";
-              // }}
               onClick={() =>
                 confirmLogout(() => {
                   localStorage.removeItem("user");

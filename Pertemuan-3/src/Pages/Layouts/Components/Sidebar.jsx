@@ -13,7 +13,6 @@ const Sidebar = () => {
       </div>
 
       <nav className="p-4 space-y-2">
-
         {/* Menu Dashboard */}
         {user.permission?.includes("dashboard.page") && (
           <NavLink
@@ -44,6 +43,20 @@ const Sidebar = () => {
           </NavLink>
         )}
 
+        {/* Menu Rencana Studi */}
+        {user.permission?.includes("rencana-studi.page") && (
+          <NavLink
+            to="/admin/rencana-studi"
+            className={({ isActive }) =>
+              `flex items-center space-x-2 px-4 py-2 rounded ${
+                isActive ? "bg-blue-700" : "hover:bg-blue-700"
+              }`
+            }
+          >
+            <span>📚</span>
+            <span className="menu-text hidden lg:inline">Rencana Studi</span>
+          </NavLink>
+        )}
       </nav>
     </aside>
   );
